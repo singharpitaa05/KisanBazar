@@ -5,24 +5,33 @@ import { Link } from 'react-router-dom';
 import Button from '../components/common/Button.jsx';
 import Loader from '../components/common/Loader.jsx';
 import useAuthStore from '../store/authStore.js';
+import useProductStore from '../store/productStore.js';
 
 const Dashboard = () => {
-  const { user, isLoading, getProfile } = useAuthStore();
+  const { user, isLoading: authLoading, getProfile } = useAuthStore();
+  const { farmerStats, isLoading: statsLoading, getFarmerStats } = useProductStore();
+
+  const isFarmer = user?.role === 'farmer';
 
   useEffect(() => {
     // Fetch fresh user data on mount
     getProfile();
   }, [getProfile]);
 
-  if (isLoading) {
+  useEffect(() => {
+    // Fetch farmer stats if user is a farmer
+    if (isFarmer) {
+      getFarmerStats();
+    }
+  }, [isFarmer, getFarmerStats]);
+
+  if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader size="lg" text="Loading dashboard..." />
       </div>
     );
   }
-
-  const isFarmer = user?.role === 'farmer';
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -55,75 +64,149 @@ const Dashboard = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {/* Stat 1 */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">
-                  {isFarmer ? 'Total Products' : 'Total Orders'}
-                </p>
-                <p className="text-3xl font-bold text-gray-900">0</p>
+          {isFarmer ? (
+            // Farmer Stats
+            <>
+              {/* Total Products */}
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Total Products</p>
+                    <p className="text-3xl font-bold text-gray-900">
+                      {statsLoading ? '...' : farmerStats?.totalProducts || 0}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {statsLoading ? '' : `${farmerStats?.activeProducts || 0} active`}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                </svg>
-              </div>
-            </div>
-          </div>
 
-          {/* Stat 2 */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">
-                  {isFarmer ? 'Active Orders' : 'Pending Orders'}
-                </p>
-                <p className="text-3xl font-bold text-gray-900">0</p>
+              {/* Total Views */}
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Total Views</p>
+                    <p className="text-3xl font-bold text-gray-900">
+                      {statsLoading ? '...' : farmerStats?.totalViews || 0}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">Product views</p>
+                  </div>
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                </svg>
-              </div>
-            </div>
-          </div>
 
-          {/* Stat 3 */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">
-                  {isFarmer ? 'Total Revenue' : 'Total Spent'}
-                </p>
-                <p className="text-3xl font-bold text-gray-900">₹0</p>
+              {/* Inventory Value */}
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Inventory Value</p>
+                    <p className="text-3xl font-bold text-gray-900">
+                      {statsLoading ? '...' : `₹${farmerStats?.totalInventoryValue?.toFixed(0) || 0}`}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">Total stock value</p>
+                  </div>
+                  <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-            </div>
-          </div>
 
-          {/* Stat 4 */}
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">
-                  {isFarmer ? 'Customer Rating' : 'Saved Items'}
-                </p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {isFarmer ? '0.0' : '0'}
-                </p>
+              {/* Average Rating */}
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Average Rating</p>
+                    <p className="text-3xl font-bold text-gray-900">
+                      {statsLoading ? '...' : farmerStats?.averageRating?.toFixed(1) || '0.0'}
+                    </p>
+                    <div className="flex items-center mt-1">
+                      <svg className="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+                      </svg>
+                      <span className="text-xs text-gray-500 ml-1">Product rating</span>
+                    </div>
+                  </div>
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                </svg>
+            </>
+          ) : (
+            // Buyer Stats (placeholder for Phase 3)
+            <>
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Total Orders</p>
+                    <p className="text-3xl font-bold text-gray-900">0</p>
+                  </div>
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Pending Orders</p>
+                    <p className="text-3xl font-bold text-gray-900">0</p>
+                  </div>
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Total Spent</p>
+                    <p className="text-3xl font-bold text-gray-900">₹0</p>
+                  </div>
+                  <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">Saved Items</p>
+                    <p className="text-3xl font-bold text-gray-900">0</p>
+                  </div>
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Quick Actions */}
@@ -304,17 +387,16 @@ const Dashboard = () => {
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-              </svg>
-            </div>
-            <p className="text-gray-600">No recent activity yet</p>
-            <p className="text-sm text-gray-500 mt-1">
-              {isFarmer ? 'Start by adding your first product' : 'Start by browsing products'}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+</svg>
+</div>
+<p className="text-gray-600">No recent activity yet</p>
+<p className="text-sm text-gray-500 mt-1">
+{isFarmer ? 'Start by adding your first product' : 'Start by browsing products'}
+</p>
+</div>
+</div>
+</div>
+</div>
+);
 };
-
 export default Dashboard;
