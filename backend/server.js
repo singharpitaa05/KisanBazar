@@ -6,10 +6,13 @@ import dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
 import helmet from 'helmet';
+import { createServer } from 'http';
 import connectDB from './config/db.js';
 import passportConfig from './config/passport.js';
+import { initializeSocket } from './config/socket.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
 import authRoutes from './routes/authRoutes.js';
+import productRoutes from './routes/productRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -17,8 +20,14 @@ dotenv.config();
 // Initialize express app
 const app = express();
 
+// Create HTTP server for Socket.io
+const server = createServer(app);
+
 // Connect to MongoDB
 connectDB();
+
+// Initialize Socket.io
+initializeSocket(server);
 
 // Security middleware
 app.use(helmet({
@@ -68,6 +77,7 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
 
 // 404 handler - must be after all routes
 app.use(notFound);
@@ -77,13 +87,14 @@ app.use(errorHandler);
 
 // Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  console.log(`Socket.io enabled for real-time updates`);
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
   console.error('Unhandled Promise Rejection:', err);
   // Close server & exit process
-  process.exit(1);
+  server.close(() => process.exit(1));
 });
