@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Footer from './components/layout/Footer.jsx';
 import Navbar from './components/layout/Navbar.jsx';
@@ -6,9 +7,32 @@ import GoogleCallback from './pages/auth/GoogleCallback.jsx';
 import Login from './pages/auth/Login.jsx';
 import Register from './pages/auth/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import AddProduct from './pages/farmer/AddProduct.jsx';
+import MyProducts from './pages/farmer/MyProducts.jsx';
 import Home from './pages/Home.jsx';
+import Products from './pages/Products.jsx';
+import useAuthStore from './store/authStore.js';
+import useProductStore from './store/productStore.js';
+import { disconnectSocket, initializeSocket } from './utils/socket.js';
 
 function App() {
+  const { isAuthenticated } = useAuthStore();
+  const { subscribeToSocketEvents } = useProductStore();
+
+  // Initialize socket when user is authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      initializeSocket();
+      subscribeToSocketEvents();
+    } else {
+      disconnectSocket();
+    }
+
+    return () => {
+      disconnectSocket();
+    };
+  }, [isAuthenticated, subscribeToSocketEvents]);
+
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
@@ -20,6 +44,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/auth/google/success" element={<GoogleCallback />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<PlaceholderPage title="Product Details" />} />
 
             {/* Protected Routes */}
             <Route
@@ -31,15 +57,38 @@ function App() {
               }
             />
 
-            {/* Placeholder for future routes */}
+            {/* Farmer Routes */}
+            <Route 
+              path="/my-products" 
+              element={
+                <ProtectedRoute allowedRoles={['farmer']}>
+                  <MyProducts />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/add-product" 
+              element={
+                <ProtectedRoute allowedRoles={['farmer']}>
+                  <AddProduct />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/edit-product/:id" 
+              element={
+                <ProtectedRoute allowedRoles={['farmer']}>
+                  <PlaceholderPage title="Edit Product" />
+                </ProtectedRoute>
+              } 
+            />
+
+            {/* Other Protected Routes */}
             <Route path="/profile" element={<ProtectedRoute><PlaceholderPage title="Profile" /></ProtectedRoute>} />
-            <Route path="/products" element={<PlaceholderPage title="Products" />} />
             <Route path="/about" element={<PlaceholderPage title="About Us" />} />
             <Route path="/contact" element={<PlaceholderPage title="Contact" />} />
             <Route path="/cart" element={<ProtectedRoute><PlaceholderPage title="Shopping Cart" /></ProtectedRoute>} />
             <Route path="/orders" element={<ProtectedRoute><PlaceholderPage title="My Orders" /></ProtectedRoute>} />
-            <Route path="/my-products" element={<ProtectedRoute allowedRoles={['farmer']}><PlaceholderPage title="My Products" /></ProtectedRoute>} />
-            <Route path="/add-product" element={<ProtectedRoute allowedRoles={['farmer']}><PlaceholderPage title="Add Product" /></ProtectedRoute>} />
 
             {/* 404 Not Found */}
             <Route path="*" element={<NotFound />} />
