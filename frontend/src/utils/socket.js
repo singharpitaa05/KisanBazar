@@ -4,6 +4,8 @@ import { io } from 'socket.io-client';
 import { STORAGE_KEYS } from './constants.js';
 
 let socket = null;
+// Track joined conversation rooms on the client to avoid duplicate joins
+const joinedRooms = new Set();
 
 // Initialize socket connection
 export const initializeSocket = () => {
@@ -37,6 +39,8 @@ export const initializeSocket = () => {
 
   socket.on('disconnect', (reason) => {
     console.log('Socket disconnected:', reason);
+    // clear joined rooms on disconnect so they can be re-joined after reconnect
+    joinedRooms.clear();
   });
 
   socket.on('connect_error', (error) => {
@@ -69,10 +73,27 @@ export const disconnectSocket = () => {
 // Emit event
 export const emitEvent = (event, data) => {
   if (socket && socket.connected) {
+    console.log(`[Socket] Emitting event: ${event}`, data);
     socket.emit(event, data);
   } else {
     console.warn('Socket not connected, cannot emit event:', event);
   }
+};
+
+// Join conversation room (idempotent)
+export const joinConversation = (conversationId) => {
+  if (!conversationId) return;
+  if (joinedRooms.has(conversationId)) return;
+  emitEvent('chat:join', { conversationId });
+  joinedRooms.add(conversationId);
+};
+
+// Leave conversation room
+export const leaveConversation = (conversationId) => {
+  if (!conversationId) return;
+  if (!joinedRooms.has(conversationId)) return;
+  emitEvent('chat:leave', { conversationId });
+  joinedRooms.delete(conversationId);
 };
 
 // Listen to event
@@ -132,6 +153,8 @@ export default {
   emitEvent,
   onEvent,
   offEvent,
+  joinConversation,
+  leaveConversation,
   emitInventoryUpdate,
   onInventoryUpdated,
   emitProductStatusChange,
