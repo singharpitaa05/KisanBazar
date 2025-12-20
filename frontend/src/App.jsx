@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Footer from './components/layout/Footer.jsx';
 import Navbar from './components/layout/Navbar.jsx';
@@ -6,32 +7,67 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import GoogleCallback from './pages/auth/GoogleCallback.jsx';
 import Login from './pages/auth/Login.jsx';
 import Register from './pages/auth/Register.jsx';
+import Cart from './pages/Cart.jsx';
+import Checkout from './pages/Checkout.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import AddProduct from './pages/farmer/AddProduct.jsx';
 import MyProducts from './pages/farmer/MyProducts.jsx';
 import Home from './pages/Home.jsx';
+import Messages from './pages/Messages.jsx';
+import OrderDetails from './pages/OrderDetails.jsx';
+import Orders from './pages/Orders.jsx';
+import ProductDetail from './pages/ProductDetail.jsx';
 import Products from './pages/Products.jsx';
+import Wishlist from './pages/Wishlist.jsx';
 import useAuthStore from './store/authStore.js';
+import useCartStore from './store/cartStore.js';
+import useChatStore from './store/chatStore.js';
+import useOrderStore from './store/orderStore.js';
 import useProductStore from './store/productStore.js';
+import useWishlistStore from './store/wishlistStore.js';
 import { disconnectSocket, initializeSocket } from './utils/socket.js';
 
 function App() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const { subscribeToSocketEvents } = useProductStore();
+  const { getCart, clearCartState } = useCartStore();
+  const { getWishlist, clearWishlistState } = useWishlistStore();
+  const { subscribeToSocketEvents: subscribeToChatEvents } = useChatStore();
+  const { subscribeToSocketEvents: subscribeToOrderEvents } = useOrderStore();
 
   // Initialize socket when user is authenticated
   useEffect(() => {
     if (isAuthenticated) {
       initializeSocket();
       subscribeToSocketEvents();
+      subscribeToChatEvents();
+      subscribeToOrderEvents();
+      
+      // Load cart and wishlist for buyers
+      if (user?.role === 'buyer') {
+        getCart();
+        getWishlist();
+      }
     } else {
       disconnectSocket();
+      clearCartState();
+      clearWishlistState();
     }
 
     return () => {
       disconnectSocket();
     };
-  }, [isAuthenticated, subscribeToSocketEvents]);
+  }, [
+    isAuthenticated, 
+    user, 
+    subscribeToSocketEvents, 
+    subscribeToChatEvents,
+    subscribeToOrderEvents,
+    getCart, 
+    getWishlist, 
+    clearCartState, 
+    clearWishlistState
+  ]);
 
   return (
     <Router>
@@ -45,7 +81,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/auth/google/success" element={<GoogleCallback />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<PlaceholderPage title="Product Details" />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
 
             {/* Protected Routes */}
             <Route
@@ -83,18 +119,94 @@ function App() {
               } 
             />
 
+            {/* Buyer Routes */}
+            <Route 
+              path="/cart" 
+              element={
+                <ProtectedRoute allowedRoles={['buyer']}>
+                  <Cart />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/wishlist" 
+              element={
+                <ProtectedRoute allowedRoles={['buyer']}>
+                  <Wishlist />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/checkout" 
+              element={
+                <ProtectedRoute allowedRoles={['buyer']}>
+                  <Checkout />
+                </ProtectedRoute>
+              } 
+            />
+
+            {/* Order Routes (Both Farmer & Buyer) */}
+            <Route 
+              path="/orders" 
+              element={
+                <ProtectedRoute>
+                  <Orders />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/orders/:orderId" 
+              element={
+                <ProtectedRoute>
+                  <OrderDetails />
+                </ProtectedRoute>
+              } 
+            />
+
+            {/* Chat/Messages Route (Both Farmer & Buyer) */}
+            <Route 
+              path="/messages" 
+              element={
+                <ProtectedRoute>
+                  <Messages />
+                </ProtectedRoute>
+              } 
+            />
+
             {/* Other Protected Routes */}
             <Route path="/profile" element={<ProtectedRoute><PlaceholderPage title="Profile" /></ProtectedRoute>} />
             <Route path="/about" element={<PlaceholderPage title="About Us" />} />
             <Route path="/contact" element={<PlaceholderPage title="Contact" />} />
-            <Route path="/cart" element={<ProtectedRoute><PlaceholderPage title="Shopping Cart" /></ProtectedRoute>} />
-            <Route path="/orders" element={<ProtectedRoute><PlaceholderPage title="My Orders" /></ProtectedRoute>} />
 
             {/* 404 Not Found */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />
+        
+        {/* Toast Notifications */}
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: '#fff',
+              color: '#363636',
+            },
+            success: {
+              iconTheme: {
+                primary: '#10b981',
+                secondary: '#fff',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#ef4444',
+                secondary: '#fff',
+              },
+            },
+          }}
+        />
       </div>
     </Router>
   );
