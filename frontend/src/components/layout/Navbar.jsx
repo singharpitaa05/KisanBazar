@@ -3,13 +3,37 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../../store/authStore.js';
+import useCartStore from '../../store/cartStore.js';
+import useChatStore from '../../store/chatStore.js';
+import useOrderStore from '../../store/orderStore.js';
+import useWishlistStore from '../../store/wishlistStore.js';
 import Button from '../common/Button.jsx';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuthStore();
+  const { getCartItemCount } = useCartStore();
+  const { getWishlistCount } = useWishlistStore();
+  const { getUnreadCount } = useChatStore();
+  const { orders } = useOrderStore();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+
+  const isBuyer = user?.role === 'buyer';
+  const isFarmer = user?.role === 'farmer';
+  const cartCount = isAuthenticated ? getCartItemCount() : 0;
+  const wishlistCount = isAuthenticated ? getWishlistCount() : 0;
+  const unreadMessagesCount = isAuthenticated ? getUnreadCount() : 0;
+  
+  // Count pending orders for farmers or processing/shipped orders for buyers
+  const pendingOrdersCount = orders?.filter(order => {
+    if (isFarmer) {
+      return ['pending', 'confirmed'].includes(order.orderStatus);
+    } else if (isBuyer) {
+      return ['processing', 'shipped'].includes(order.orderStatus);
+    }
+    return false;
+  }).length || 0;
 
   const handleLogout = async () => {
     try {
@@ -34,7 +58,9 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <img src="/logo.png" alt="Kisan Bazar Logo" className="w-10 h-10" />
+            <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-xl">KB</span>
+            </div>
             <span className="text-xl font-bold text-gray-900">Kisan Bazar</span>
           </Link>
 
@@ -66,8 +92,63 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Desktop Auth Buttons */}
+          {/* Desktop Auth Buttons & Icons */}
           <div className="hidden md:flex items-center space-x-4">
+            {isAuthenticated && (
+              <>
+                {/* Orders Icon (Both Roles) */}
+                <Link to="/orders" className="relative p-2 text-gray-700 hover:text-green-600 transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                  {pendingOrdersCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                      {pendingOrdersCount > 9 ? '9+' : pendingOrdersCount}
+                    </span>
+                  )}
+                </Link>
+
+                {/* Messages Icon (Both Roles) */}
+                <Link to="/messages" className="relative p-2 text-gray-700 hover:text-green-600 transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  {unreadMessagesCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                      {unreadMessagesCount > 9 ? '9+' : unreadMessagesCount}
+                    </span>
+                  )}
+                </Link>
+              </>
+            )}
+
+            {/* Buyer Icons (Cart & Wishlist) */}
+            {isAuthenticated && isBuyer && (
+              <>
+                <Link to="/wishlist" className="relative p-2 text-gray-700 hover:text-green-600 transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                      {wishlistCount > 9 ? '9+' : wishlistCount}
+                    </span>
+                  )}
+                </Link>
+
+                <Link to="/cart" className="relative p-2 text-gray-700 hover:text-green-600 transition-colors">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                      {cartCount > 9 ? '9+' : cartCount}
+                    </span>
+                  )}
+                </Link>
+              </>
+            )}
+
             {isAuthenticated && user ? (
               <div className="relative">
                 <button
@@ -116,6 +197,32 @@ const Navbar = () => {
                     >
                       Profile Settings
                     </Link>
+
+                    <Link
+                      to="/orders"
+                      className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                      onClick={() => setIsProfileMenuOpen(false)}
+                    >
+                      <span>My Orders</span>
+                      {pendingOrdersCount > 0 && (
+                        <span className="px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded-full">
+                          {pendingOrdersCount}
+                        </span>
+                      )}
+                    </Link>
+
+                    <Link
+                      to="/messages"
+                      className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                      onClick={() => setIsProfileMenuOpen(false)}
+                    >
+                      <span>Messages</span>
+                      {unreadMessagesCount > 0 && (
+                        <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">
+                          {unreadMessagesCount}
+                        </span>
+                      )}
+                    </Link>
                     
                     {user.role === 'farmer' && (
                       <Link
@@ -128,13 +235,32 @@ const Navbar = () => {
                     )}
                     
                     {user.role === 'buyer' && (
-                      <Link
-                        to="/orders"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                        onClick={() => setIsProfileMenuOpen(false)}
-                      >
-                        My Orders
-                      </Link>
+                      <>
+                        <Link
+                          to="/cart"
+                          className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                          onClick={() => setIsProfileMenuOpen(false)}
+                        >
+                          <span>My Cart</span>
+                          {cartCount > 0 && (
+                            <span className="px-2 py-0.5 bg-green-500 text-white text-xs font-bold rounded-full">
+                              {cartCount}
+                            </span>
+                          )}
+                        </Link>
+                        <Link
+                          to="/wishlist"
+                          className="flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                          onClick={() => setIsProfileMenuOpen(false)}
+                        >
+                          <span>My Wishlist</span>
+                          {wishlistCount > 0 && (
+                            <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">
+                              {wishlistCount}
+                            </span>
+                          )}
+                        </Link>
+                      </>
                     )}
                     
                     <div className="border-t border-gray-200 mt-2 pt-2">
@@ -217,6 +343,77 @@ const Navbar = () => {
             >
               Contact
             </Link>
+            
+            {/* Authenticated User Mobile Links */}
+            {isAuthenticated && (
+              <>
+                <Link
+                  to="/orders"
+                  className="flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span>Orders</span>
+                  {pendingOrdersCount > 0 && (
+                    <span className="px-2 py-0.5 bg-blue-500 text-white text-xs font-bold rounded-full">
+                      {pendingOrdersCount}
+                    </span>
+                  )}
+                </Link>
+                <Link
+                  to="/messages"
+                  className="flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span>Messages</span>
+                  {unreadMessagesCount > 0 && (
+                    <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">
+                      {unreadMessagesCount}
+                    </span>
+                  )}
+                </Link>
+              </>
+            )}
+            
+            {/* Buyer Mobile Links */}
+            {isAuthenticated && isBuyer && (
+              <>
+                <Link
+                  to="/cart"
+                  className="flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span>Cart</span>
+                  {cartCount > 0 && (
+                    <span className="px-2 py-0.5 bg-green-500 text-white text-xs font-bold rounded-full">
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
+                <Link
+                  to="/wishlist"
+                  className="flex items-center justify-between px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span>Wishlist</span>
+                  {wishlistCount > 0 && (
+                    <span className="px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </Link>
+              </>
+            )}
+
+            {/* Farmer Mobile Links */}
+            {isAuthenticated && isFarmer && (
+              <Link
+                to="/my-products"
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                My Products
+              </Link>
+            )}
           </div>
 
           {/* Mobile Auth Section */}
