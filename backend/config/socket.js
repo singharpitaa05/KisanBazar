@@ -55,6 +55,8 @@ export const initializeSocket = (server) => {
       socket.join('buyers');
     }
 
+    // ===== PRODUCT EVENTS =====
+    
     // Handle inventory update event (from farmer)
     socket.on('inventory:update', (data) => {
       console.log('Inventory update:', data);
@@ -94,18 +96,57 @@ export const initializeSocket = (server) => {
       });
     });
 
-    // Handle typing indicator for chat (Phase 4)
+    // ===== CHAT EVENTS =====
+
+    // Join conversation room
+    socket.on('chat:join', (data) => {
+      const { conversationId } = data;
+      socket.join(`conversation:${conversationId}`);
+      console.log(`User ${socket.userId} joined conversation ${conversationId}`);
+    });
+
+    // Leave conversation room
+    socket.on('chat:leave', (data) => {
+      const { conversationId } = data;
+      socket.leave(`conversation:${conversationId}`);
+      console.log(`User ${socket.userId} left conversation ${conversationId}`);
+    });
+
+    // Handle typing indicator
     socket.on('chat:typing', (data) => {
-      socket.to(`user:${data.recipientId}`).emit('chat:typing', {
+      const { conversationId, recipientId } = data;
+      socket.to(`user:${recipientId}`).emit('chat:typing', {
         senderId: socket.userId,
-        conversationId: data.conversationId
+        conversationId
       });
     });
 
+    // Handle stop typing indicator
     socket.on('chat:stop-typing', (data) => {
-      socket.to(`user:${data.recipientId}`).emit('chat:stop-typing', {
+      const { conversationId, recipientId } = data;
+      socket.to(`user:${recipientId}`).emit('chat:stop-typing', {
         senderId: socket.userId,
-        conversationId: data.conversationId
+        conversationId
+      });
+    });
+
+    // Handle message sent (for real-time delivery confirmation)
+    socket.on('chat:message:sent', (data) => {
+      const { conversationId, messageId } = data;
+      socket.to(`conversation:${conversationId}`).emit('chat:message:delivered', {
+        conversationId,
+        messageId
+      });
+    });
+
+    // ===== ORDER EVENTS =====
+
+    // Handle order status update notification
+    socket.on('order:status:update', (data) => {
+      const { orderId, buyerId, status } = data;
+      socket.to(`user:${buyerId}`).emit('order:status:updated', {
+        orderId,
+        status
       });
     });
 
@@ -160,4 +201,19 @@ export const emitToAll = (event, data) => {
   }
 };
 
-export default { initializeSocket, getIO, emitToUser, emitToFarmers, emitToBuyers, emitToAll };
+// Emit to conversation room
+export const emitToConversation = (conversationId, event, data) => {
+  if (io) {
+    io.to(`conversation:${conversationId}`).emit(event, data);
+  }
+};
+
+export default { 
+  initializeSocket, 
+  getIO, 
+  emitToUser, 
+  emitToFarmers, 
+  emitToBuyers, 
+  emitToAll,
+  emitToConversation 
+};
