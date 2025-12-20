@@ -1,5 +1,3 @@
-// REVIEW MODEL
-
 import mongoose from 'mongoose';
 
 const reviewSchema = new mongoose.Schema(
@@ -10,7 +8,7 @@ const reviewSchema = new mongoose.Schema(
       required: true,
       index: true
     },
-    userId: {
+    buyerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -18,47 +16,59 @@ const reviewSchema = new mongoose.Schema(
     },
     orderId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order'
+      ref: 'Order',
+      required: true
     },
     rating: {
       type: Number,
-      required: [true, 'Rating is required'],
-      min: [1, 'Rating must be at least 1'],
-      max: [5, 'Rating cannot exceed 5']
-    },
-    title: {
-      type: String,
-      trim: true,
-      maxlength: [100, 'Title cannot exceed 100 characters']
+      required: true,
+      min: 1,
+      max: 5
     },
     comment: {
       type: String,
-      required: [true, 'Review comment is required'],
+      required: true,
       trim: true,
-      maxlength: [1000, 'Comment cannot exceed 1000 characters']
+      maxlength: 1000
     },
-    images: [{
-      url: String,
-      publicId: String
-    }],
-    // Review helpfulness
-    helpfulCount: {
+    images: [
+      {
+        url: {
+          type: String,
+          required: true
+        },
+        publicId: {
+          type: String,
+          required: true
+        }
+      }
+    ],
+    helpful: {
       type: Number,
       default: 0
     },
-    helpfulBy: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    }],
-    // Moderation
-    isVerifiedPurchase: {
+    helpfulBy: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ],
+    verified: {
       type: Boolean,
-      default: false
+      default: true // Verified purchase
+    },
+    response: {
+      comment: String,
+      respondedAt: Date,
+      respondedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }
     },
     status: {
       type: String,
       enum: ['pending', 'approved', 'rejected'],
-      default: 'approved' // Auto-approve for now
+      default: 'approved'
     }
   },
   {
@@ -66,71 +76,32 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
-// Compound index to ensure one review per user per product
-reviewSchema.index({ productId: 1, userId: 1 }, { unique: true });
+// Compound index to prevent duplicate reviews
+reviewSchema.index({ productId: 1, buyerId: 1, orderId: 1 }, { unique: true });
 
-// Index for sorting by date
-reviewSchema.index({ createdAt: -1 });
+// Index for efficient queries
+reviewSchema.index({ productId: 1, status: 1, createdAt: -1 });
+reviewSchema.index({ buyerId: 1, createdAt: -1 });
 
-// Method to mark review as helpful
-reviewSchema.methods.markHelpful = function(userId) {
-  if (!this.helpfulBy.includes(userId)) {
-    this.helpfulBy.push(userId);
-    this.helpfulCount += 1;
-  }
-  return this.save();
-};
+// Virtual for buyer info
+reviewSchema.virtual('buyer', {
+  ref: 'User',
+  localField: 'buyerId',
+  foreignField: '_id',
+  justOne: true
+});
 
-// Method to unmark review as helpful
-reviewSchema.methods.unmarkHelpful = function(userId) {
-  const index = this.helpfulBy.indexOf(userId);
-  if (index > -1) {
-    this.helpfulBy.splice(index, 1);
-    this.helpfulCount -= 1;
-  }
-  return this.save();
-};
+// Virtual for product info
+reviewSchema.virtual('product', {
+  ref: 'Product',
+  localField: 'productId',
+  foreignField: '_id',
+  justOne: true
+});
 
-// Static method to get product rating summary
-reviewSchema.statics.getProductRatingSummary = async function(productId) {
-  const result = await this.aggregate([
-    { 
-      $match: { 
-        productId: mongoose.Types.ObjectId(productId),
-        status: 'approved'
-      } 
-    },
-    {
-      $group: {
-        _id: null,
-        averageRating: { $avg: '$rating' },
-        totalReviews: { $sum: 1 },
-        ratingDistribution: {
-          $push: '$rating'
-        }
-      }
-    }
-  ]);
-
-  if (result.length === 0) {
-    return {
-      averageRating: 0,
-      totalReviews: 0,
-      ratingDistribution: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 }
-    };
-  }
-
-  const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-  result[0].ratingDistribution.forEach(rating => {
-    distribution[rating] = (distribution[rating] || 0) + 1;
-  });
-
-  return {
-    averageRating: result[0].averageRating,
-    totalReviews: result[0].totalReviews,
-    ratingDistribution: distribution
-  };
-};
+// Ensure virtuals are included in JSON
+reviewSchema.set('toJSON', { virtuals: true });
+reviewSchema.set('toObject', { virtuals: true });
 
 const Review = mongoose.model('Review', reviewSchema);
 
