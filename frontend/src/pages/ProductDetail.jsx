@@ -90,9 +90,11 @@ const ProductDetail = () => {
     }
 
     try {
-      await startConversation(product.farmerId._id);
+      const farmerIdToContact = product.farmerId?._id || product.farmerId;
+      await startConversation(farmerIdToContact, product._id);
       navigate('/messages');
     } catch (error) {
+      console.error('[ProductDetail] Error starting conversation:', error?.response?.data || error);
       toast.error(error.response?.data?.message || 'Failed to start chat');
     }
   };
