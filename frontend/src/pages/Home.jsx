@@ -270,32 +270,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-green-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-            Ready to Get Started?
-          </h2>
-          <p className="text-xl text-green-100 mb-8">
-            Join thousands of farmers and buyers already using Kisan Bazar
-          </p>
-          {!isAuthenticated && (
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/register">
-                <Button variant="secondary" size="lg" className="bg-white text-green-600 hover:bg-gray-100">
-                  Register Now
-                </Button>
-              </Link>
-              <Link to="/products">
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-green-700">
-                  Browse Products
-                </Button>
-              </Link>
-            </div>
-          )}
-        </div>
-      </section>
     </div>
   );
 };

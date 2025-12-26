@@ -13,7 +13,7 @@ const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuthStore();
   const { getCartItemCount } = useCartStore();
   const { getWishlistCount } = useWishlistStore();
-  const { getUnreadCount } = useChatStore();
+  const { unreadCount } = useChatStore();
   const { orders } = useOrderStore();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -23,7 +23,7 @@ const Navbar = () => {
   const isFarmer = user?.role === 'farmer';
   const cartCount = isAuthenticated ? getCartItemCount() : 0;
   const wishlistCount = isAuthenticated ? getWishlistCount() : 0;
-  const unreadMessagesCount = isAuthenticated ? getUnreadCount() : 0;
+  const unreadMessagesCount = isAuthenticated ? unreadCount : 0;
   
   // Count pending orders for farmers or processing/shipped orders for buyers
   const pendingOrdersCount = orders?.filter(order => {
@@ -53,9 +53,10 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <nav className="bg-transparent sticky top-0 z-40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div className="max-w-6xl mx-auto bg-white/30 backdrop-blur-md border border-white/20 rounded-full shadow-lg px-4 py-1">
+          <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
@@ -308,6 +309,7 @@ const Navbar = () => {
               </svg>
             )}
           </button>
+          </div>
         </div>
       </div>
 

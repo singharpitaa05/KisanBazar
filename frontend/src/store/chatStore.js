@@ -4,6 +4,12 @@ import { create } from 'zustand';
 import chatApi from '../api/chatApi.js';
 import { emitEvent, getSocket, joinConversation, leaveConversation, offEvent, onEvent } from '../utils/socket.js';
 
+// Debounce timer for unread count requests
+let unreadCountTimeout = null;
+let lastUnreadCountTime = 0;
+let consecutiveUnreadErrors = 0; // Track consecutive network errors for backoff
+const UNREAD_COUNT_DEBOUNCE_MS = 3000; // Wait 3 seconds before next request
+
 const useChatStore = create((set, get) => ({
   // State
   conversations: [],
@@ -51,6 +57,11 @@ const useChatStore = create((set, get) => ({
       set({ error: errorMessage, isLoading: false });
       throw error;
     }
+  },
+
+  // Start conversation (alias for UI compatibility)
+  startConversation: async (farmerId, productId = null) => {
+    return await get().getOrCreateConversation(farmerId, productId);
   },
 
    // Compatibility: called by UI to fetch conversations
@@ -166,17 +177,63 @@ const useChatStore = create((set, get) => ({
      }
    },
 
-  // Get unread count
+  // Get unread count with debouncing to prevent excessive API calls
   getUnreadCount: async () => {
+    const now = Date.now();
+    
+    // If debounce is in progress, wait for it
+    if (unreadCountTimeout) {
+      return;
+    }
+
+    // If we've seen repeated network errors, back off to avoid resource exhaustion
+    if (consecutiveUnreadErrors >= 3) {
+      unreadCountTimeout = setTimeout(() => {
+        unreadCountTimeout = null;
+        // try again after extended backoff
+        get().getUnreadCount();
+      }, UNREAD_COUNT_DEBOUNCE_MS * 5);
+      return;
+    }
+    
+    // If called within debounce window, schedule it for later
+    if (now - lastUnreadCountTime < UNREAD_COUNT_DEBOUNCE_MS) {
+      if (unreadCountTimeout) clearTimeout(unreadCountTimeout);
+      
+      unreadCountTimeout = setTimeout(() => {
+        unreadCountTimeout = null;
+        get().getUnreadCount(); // Recursive call after debounce
+      }, UNREAD_COUNT_DEBOUNCE_MS - (now - lastUnreadCountTime));
+      
+      return;
+    }
+    
+    lastUnreadCountTime = now;
+    
     try {
       const response = await chatApi.getUnreadCount();
       const { unreadCount } = response.data;
+
+      // Reset consecutive error counter on success
+      consecutiveUnreadErrors = 0;
 
       set({ unreadCount });
 
       return response;
     } catch (error) {
       console.error('Failed to get unread count:', error);
+
+      // Increment consecutive error counter and schedule a backoff retry
+      consecutiveUnreadErrors = Math.min(10, consecutiveUnreadErrors + 1);
+
+      // If network errors are happening, schedule a delayed retry to avoid flooding
+      if (!unreadCountTimeout) {
+        const backoffMs = UNREAD_COUNT_DEBOUNCE_MS * (1 + consecutiveUnreadErrors);
+        unreadCountTimeout = setTimeout(() => {
+          unreadCountTimeout = null;
+          get().getUnreadCount();
+        }, backoffMs);
+      }
     }
   },
 
@@ -185,15 +242,20 @@ const useChatStore = create((set, get) => ({
     try {
       await chatApi.markAsRead(conversationId);
 
-      // Update unread count in conversation
-      set((state) => ({
-        conversations: state.conversations.map((c) =>
+      // Update unread count in conversation and recalculate total
+      set((state) => {
+        const updatedConversations = state.conversations.map((c) =>
           c._id === conversationId ? { ...c, unreadCount: 0 } : c
-        )
-      }));
-
-      // Refresh total unread count
-      get().getUnreadCount();
+        );
+        
+        // Recalculate total unread count locally
+        const totalUnread = updatedConversations.reduce((sum, conv) => sum + (conv.unreadCount || 0), 0);
+        
+        return {
+          conversations: updatedConversations,
+          unreadCount: totalUnread
+        };
+      });
     } catch (error) {
       console.error('Failed to mark as read:', error);
     }
@@ -223,34 +285,43 @@ const useChatStore = create((set, get) => ({
     console.log('[Chat Store] Received message event:', data);
     const { conversationId, message, sender } = data;
 
-    // Update current conversation if viewing
+    // Use single set call for both updates to ensure atomic operation
     set((state) => {
       if (state.currentConversation?._id === conversationId) {
         console.log('[Chat Store] Adding message to current conversation');
+        
+        // Create Set of existing message IDs for O(1) lookup
+        const existingIds = new Set(state.currentConversation.messages?.map(m => m._id?.toString()) || []);
+        
+        if (existingIds.has(message._id?.toString())) {
+          console.log('[Chat Store] Message already exists, skipping duplicate');
+          return state;
+        }
+        
+        // Deduplicate current conversation messages
+        const uniqueConvMessages = Array.from(new Map(
+          [...(state.currentConversation.messages || []), message].map(m => [m._id?.toString(), m])
+        ).values());
+        
+        // Deduplicate top-level messages array
+        const uniqueMessages = Array.from(new Map(
+          [...(state.messages || []), message].map(m => [m._id?.toString(), m])
+        ).values());
+        
         return {
           currentConversation: {
             ...state.currentConversation,
-            messages: [...(state.currentConversation.messages || []), message]
-          }
-        };
-      }
-      return state;
-    });
-
-    // Also append to top-level messages array if the current conversation is open
-    set((state) => {
-      if (state.currentConversation?._id === conversationId) {
-        console.log('[Chat Store] Adding message to messages array');
-        return {
-          messages: [...(state.messages || []), message]
+            messages: uniqueConvMessages
+          },
+          messages: uniqueMessages
         };
       }
       return state;
     });
 
     // Update in conversations list
-    set((state) => ({
-      conversations: state.conversations.map((c) =>
+    set((state) => {
+      const updatedConversations = state.conversations.map((c) =>
         c._id === conversationId
           ? {
               ...c,
@@ -262,11 +333,16 @@ const useChatStore = create((set, get) => ({
               unreadCount: (c.unreadCount || 0) + 1
             }
           : c
-      )
-    }));
-
-    // Update total unread count
-    get().getUnreadCount();
+      );
+      
+      // Recalculate total unread count locally
+      const totalUnread = updatedConversations.reduce((sum, conv) => sum + (conv.unreadCount || 0), 0);
+      
+      return {
+        conversations: updatedConversations,
+        unreadCount: totalUnread
+      };
+    });
   },
 
   // Handle typing indicator
