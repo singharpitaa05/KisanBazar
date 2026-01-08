@@ -470,10 +470,6 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ![Browser Product Cards](browserproduct.png)
 
-![Cruciferous Vegetable (Product)](cruciferous.jpg)
-
-![Fresh Apple (Product)](apple.jpg)
-
 ![Shopping Cart](shopping.png)
 
 ![Cart Summary](checkout.png)
@@ -483,8 +479,6 @@ Open your browser and navigate to: `http://localhost:5173`
 ![Payment Modal](pg2.png)
 
 ![Login Page](Loginpage.png)
-
-![Logo Design](logodesign.jpg)
 
 ## 👤 Author
 
