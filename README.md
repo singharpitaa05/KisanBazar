@@ -461,60 +461,37 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ## 📸 Screenshots
 
-### Landing Page
-The clean and welcoming landing page introduces users to KisanBazar with a clear call-to-action.
+### 1. Landing Page
+Homepage with introduction and call-to-action buttons for getting started.
+![Landing Page](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/landing.png)
 
-![Landing Page](https://images.unsplash.com/photo-1574080566159-036587deef3e?w=1200&h=600&fit=crop)
+### 2. User Registration
+Comprehensive sign-up form with role selection (Farmer/Buyer).
+![Registration Page](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/register.png)
 
-### Product Browsing & Catalog
-Browse products with advanced filters for category, price, and ratings. The responsive product cards display essential information at a glance.
+### 3. Farmer Dashboard
+Dashboard showing product statistics, analytics, and quick actions for farmers.
+![Farmer Dashboard](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/farmer-dashboard.png)
 
-![Product Catalog](https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=600&fit=crop)
+### 4. Product Listing (My Products)
+Farmer's product management interface with status filters and action buttons.
+![My Products](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/my-products.png)
 
-### Product Details
-Comprehensive product information including description, pricing, availability, and seller details. Real-time stock updates and customer reviews.
+### 5. Product Details
+Detailed product view with pricing, availability, description, and reviews.
+![Product Details](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/product-detail.png)
 
-![Product Details Page](https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&h=600&fit=crop)
+### 6. Shopping Cart
+Shopping cart page displaying items, quantities, and order summary.
+![Shopping Cart](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/cart.png)
 
-### Shopping Cart
-Manage your cart with easy quantity adjustment, price updates, and order summary. Quick actions to continue shopping or proceed to checkout.
+### 7. Checkout Page
+Delivery address form and order summary before payment.
+![Checkout](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/checkout.png)
 
-![Shopping Cart](https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=1200&h=600&fit=crop)
-
-### Checkout & Payment
-Secure checkout process with delivery address form and multiple payment options including UPI, Cards, EMI, and Wallets via Razorpay.
-
-![Checkout Page](https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1200&h=600&fit=crop)
-
-### User Registration
-Role-based registration allowing users to sign up as either Farmer or Buyer with comprehensive form validation.
-
-![Registration Page](https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1200&h=600&fit=crop)
-
-### Farmer Dashboard
-Access your sales analytics, product management, and business metrics at a glance. Monitor views, inventory value, and product ratings.
-
-![Farmer Dashboard](https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop)
-
-### Product Management
-Add new products, manage inventory, update stock levels, and control product availability. Simple interface for quick product updates.
-
-![My Products](https://images.unsplash.com/photo-1560807707-e6b4ce2b60cd?w=1200&h=600&fit=crop)
-
-### Order Management
-Complete order tracking system for users to monitor their purchases from order placement to delivery.
-
-![Orders Page](https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=600&fit=crop)
-
-### Real-Time Messaging
-Connect directly with buyers or sellers through the integrated chat system. Real-time message delivery using Socket.io.
-
-![Messages/Chat](https://images.unsplash.com/photo-1611692035589-b0da89d75eea?w=1200&h=600&fit=crop)
-
-### Product Reviews & Ratings
-Comprehensive review system with star ratings, customer feedback, and verified purchase badges to build trust and transparency.
-
-![Product Reviews](https://images.unsplash.com/photo-1554224311-beee415c15ac?w=1200&h=600&fit=crop)
+### 8. Payment Options (Razorpay)
+Multiple payment methods including UPI, Cards, Netbanking, Wallets, and more.
+![Payment Options](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/payment-options.png)
 
 ## 👤 Author
 
@@ -522,9 +499,9 @@ Designed and Developed with 💖 by **Arpita Singh**
 
 🔗 **Connect with me:**
 
-- 📧 [Email](mailto:your.email@example.com)
-- 💼 [LinkedIn](https://www.linkedin.com/in/yourprofile/)
-- 🐙 [GitHub](https://github.com/yourusername)
+- 📧 [Email](mailto:your.singharpita.05march@gmail.com)
+- 💼 [LinkedIn](https://www.linkedin.com/in/singharpitaa05)
+- 🐙 [GitHub](https://github.com/singharpitaa05)
 
 📬 Feel free to reach out for questions, suggestions, or collaboration!
 
