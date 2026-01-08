@@ -24,7 +24,7 @@ A comprehensive digital marketplace connecting farmers and buyers with seamless 
 - [Installation](#-installation)
 - [Usage](#-usage)
 - [How to Contribute](#how-to-contribute)
-- [Screenshots](#-screenshots)
+- [Screenshots](#screenshots)
 - [Author](#-author)
 - [License](#-license)
 
@@ -460,7 +460,7 @@ Open your browser and navigate to: `http://localhost:5173`
 5. Open a Pull Request
 
 
-## 🖼️ Screenshots
+## Screenshots
 
 ![Homepage](homepage.png)
 
