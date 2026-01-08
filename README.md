@@ -472,14 +472,13 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ![Browser Product Cards](browserproduct.png)
 
+![Payment Modal](pg2.png)
+
 ![Shopping Cart](shopping.png)
 
 ![Checkout Form](checkout1.png)
 
 ![Cart Summary](checkout.png)
-
-![Payment Modal](pg2.png)
-
 
 ## 👤 Author
 
