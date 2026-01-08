@@ -464,6 +464,8 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ![Homepage](homepage.png)
 
+![Login Page](Loginpage.png)
+
 ![Dashboard](Dashboardpage.png)
 
 ![Products Listing](productpage.png)
@@ -478,7 +480,6 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ![Payment Modal](pg2.png)
 
-![Login Page](Loginpage.png)
 
 ## 👤 Author
 
