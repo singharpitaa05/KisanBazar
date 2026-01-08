@@ -461,52 +461,60 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ## 📸 Screenshots
 
-### Landing Page & Home
-The main landing page greeting users with KisanBazar's value proposition - fresh produce directly from farmers.
+### Landing Page
+The clean and welcoming landing page introduces users to KisanBazar with a clear call-to-action.
 
-![Home Page](./screenshots/home.png)
+![Landing Page](https://images.unsplash.com/photo-1574080566159-036587deef3e?w=1200&h=600&fit=crop)
 
-### Authentication
-User-friendly registration and login screens with role selection (Farmer/Buyer).
+### Product Browsing & Catalog
+Browse products with advanced filters for category, price, and ratings. The responsive product cards display essential information at a glance.
 
-![Sign Up](./screenshots/signup.png)
-![Sign In](./screenshots/signin.png)
-
-### Browse & Explore Products
-Complete product catalog with advanced filtering and search capabilities.
-
-![Browse Products](./screenshots/browse-products.png)
+![Product Catalog](https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=600&fit=crop)
 
 ### Product Details
-Detailed product information with pricing, availability, descriptions, and farmer details.
+Comprehensive product information including description, pricing, availability, and seller details. Real-time stock updates and customer reviews.
 
-![Product Details](./screenshots/product-detail.png)
+![Product Details Page](https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&h=600&fit=crop)
 
-### Shopping Cart & Checkout
-Seamless shopping experience with cart management and secure checkout process.
+### Shopping Cart
+Manage your cart with easy quantity adjustment, price updates, and order summary. Quick actions to continue shopping or proceed to checkout.
 
-![Shopping Cart](./screenshots/shopping-cart.png)
-![Checkout](./screenshots/checkout.png)
+![Shopping Cart](https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=1200&h=600&fit=crop)
 
-### Payment Integration
-Multiple payment options powered by Razorpay for secure transactions.
+### Checkout & Payment
+Secure checkout process with delivery address form and multiple payment options including UPI, Cards, EMI, and Wallets via Razorpay.
 
-![Payment Options](./screenshots/payment-options.png)
+![Checkout Page](https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1200&h=600&fit=crop)
+
+### User Registration
+Role-based registration allowing users to sign up as either Farmer or Buyer with comprehensive form validation.
+
+![Registration Page](https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1200&h=600&fit=crop)
 
 ### Farmer Dashboard
-Comprehensive dashboard for farmers to manage their products and track sales.
+Access your sales analytics, product management, and business metrics at a glance. Monitor views, inventory value, and product ratings.
 
-![Farmer Dashboard](./screenshots/farmer-dashboard.png)
+![Farmer Dashboard](https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&h=600&fit=crop)
 
 ### Product Management
-Easy-to-use interface for farmers to add, edit, and manage their product listings.
+Add new products, manage inventory, update stock levels, and control product availability. Simple interface for quick product updates.
 
-![My Products](./screenshots/my-products.png)
+![My Products](https://images.unsplash.com/photo-1560807707-e6b4ce2b60cd?w=1200&h=600&fit=crop)
 
-### Messages & Communication
-Real-time chat system for direct communication between buyers and sellers.
+### Order Management
+Complete order tracking system for users to monitor their purchases from order placement to delivery.
 
-![Messages](./screenshots/messages.png)
+![Orders Page](https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&h=600&fit=crop)
+
+### Real-Time Messaging
+Connect directly with buyers or sellers through the integrated chat system. Real-time message delivery using Socket.io.
+
+![Messages/Chat](https://images.unsplash.com/photo-1611692035589-b0da89d75eea?w=1200&h=600&fit=crop)
+
+### Product Reviews & Ratings
+Comprehensive review system with star ratings, customer feedback, and verified purchase badges to build trust and transparency.
+
+![Product Reviews](https://images.unsplash.com/photo-1554224311-beee415c15ac?w=1200&h=600&fit=crop)
 
 ## 👤 Author
 
