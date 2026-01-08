@@ -461,45 +461,45 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ## 📸 Screenshots
 
-### 1. 🏠 Landing Page
-The welcoming home page showcasing KisanBazar's mission with a call-to-action for new users to get started. Features the tagline "Fresh From Farm Direct to Your Door" with navigation and prominent action buttons.
+### 🏠 Landing Page
+The welcoming home page showcasing KisanBazar's mission with a call-to-action for new users to get started.
 
-![Landing Page](screenshots/landing-page.png)
+![Landing Page](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/home.png)
 
-### 2. 📝 User Registration
-Comprehensive sign-up form with role selection (Farmer/Buyer). Includes fields for full name, email, phone number, password, and terms acceptance. Farmers can sell produce while buyers can purchase fresh products.
+### 👤 User Registration
+Comprehensive sign-up form with role selection (Farmer/Buyer), email validation, and secure password creation.
 
-![Registration Page](screenshots/register.png)
+![Registration Page](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/register.png)
 
-### 3. 👨‍🌾 Farmer Dashboard
-Dashboard showing product statistics, analytics, and quick actions for farmers. Displays total products, total views, inventory value, and average ratings. Quick action buttons for adding new products and managing inventory.
+### 📊 Farmer Dashboard
+Dashboard showing product statistics, total views, inventory value, and average ratings with quick action buttons.
 
-![Farmer Dashboard](screenshots/farmer-dashboard.png)
+![Farmer Dashboard](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/farmer-dashboard.png)
 
-### 4. 📦 Product Listing (My Products)
-Farmer's product management interface with status filters (All, Active, Out of Stock, Inactive) and action buttons. Shows product details, pricing, availability, and management options like Edit, Update Stock, Deactivate, and Delete.
+### 📦 Product Listing (My Products)
+Farmer's product management interface with status filters (All, Active, Out of Stock, Inactive) and action buttons for editing and management.
 
-![My Products](screenshots/my-products.png)
+![My Products](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/my-products.png)
 
-### 5. 🍎 Product Details
-Detailed product view featuring the product image, pricing per unit, availability information, comprehensive description, reviews, and seller information. Easy-to-read layout with category tags and organic certification badges.
+### 🛍️ Product Details
+Detailed product view displaying pricing, availability, product description, category, and organic certification status.
 
-![Product Details](screenshots/product-detail.png)
+![Product Details](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/product-detail.png)
 
-### 6. 🛒 Shopping Cart
-Shopping cart page displaying items with images, quantities adjustable via +/- buttons, pricing details, and order summary. Shows subtotal, delivery fee, and total with proceed to checkout button.
+### 🛒 Shopping Cart
+Shopping cart page displaying items, quantities with increment/decrement controls, and comprehensive order summary.
 
-![Shopping Cart](screenshots/cart.png)
+![Shopping Cart](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/cart.png)
 
-### 7. 💳 Checkout Page
-Delivery address form where users enter full name, phone number, address lines, city, state, and pincode. Right side displays order summary with product details and total amount before proceeding to payment.
+### 🚚 Checkout Page
+Delivery address form with fields for name, phone, address lines, city, state, and pincode with order summary.
 
-![Checkout](screenshots/checkout.png)
+![Checkout](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/checkout.png)
 
-### 8. 💰 Payment Options (Razorpay)
-Multiple payment methods including UPI, Cards, Netbanking, Wallets, Pay Later, and EMI options. Secure Razorpay integration with QR code scanning support and various payment app logos for quick access.
+### 💳 Payment Options (Razorpay)
+Multiple payment methods including UPI, QR codes, Cards, EMI, Netbanking, Wallet options, and Pay Later facilities.
 
-![Payment Options](screenshots/payment-options.png)
+![Payment Options](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/payment-options.png)
 
 ## 👤 Author
 
