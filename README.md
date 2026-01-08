@@ -461,41 +461,52 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ## 📸 Screenshots
 
-### Landing Page
-*The welcoming home page connecting farmers and consumers with fresh produce directly to your door.*
-![Homepage - Fresh From Farm Direct to Your Door](./screenshots/01-homepage.png)
+### Landing Page & Home
+The main landing page greeting users with KisanBazar's value proposition - fresh produce directly from farmers.
 
-### User Authentication
-*Easy registration process with role selection between Farmer and Buyer.*
-![Sign Up Page - Create Your Account](./screenshots/02-signup.png)
+![Home Page](./screenshots/home.png)
 
-### Product Catalog & Discovery
-*Browse fresh agricultural products with advanced filtering options by category, price, and ratings.*
-![Browse Products - Fresh Produce Listings](./screenshots/03-products.png)
+### Authentication
+User-friendly registration and login screens with role selection (Farmer/Buyer).
+
+![Sign Up](./screenshots/signup.png)
+![Sign In](./screenshots/signin.png)
+
+### Browse & Explore Products
+Complete product catalog with advanced filtering and search capabilities.
+
+![Browse Products](./screenshots/browse-products.png)
 
 ### Product Details
-*Comprehensive product information with pricing, availability, descriptions, and seller details.*
-![Product Detail - Fresh Apple](./screenshots/04-productdetail.png)
+Detailed product information with pricing, availability, descriptions, and farmer details.
 
-### Shopping Experience
-*Add products to cart and manage quantities with order summary.*
-![Shopping Cart - Order Summary](./screenshots/05-cart.png)
+![Product Details](./screenshots/product-detail.png)
 
-### Checkout Process
-*Secure delivery address and order review before payment.*
-![Checkout - Delivery Address & Order Summary](./screenshots/06-checkout.png)
+### Shopping Cart & Checkout
+Seamless shopping experience with cart management and secure checkout process.
 
-### Payment Gateway
-*Multiple secure payment options powered by Razorpay (UPI, Cards, EMI, Netbanking, Wallet).*
-![Payment Options - Razorpay Integration](./screenshots/07-payment.png)
+![Shopping Cart](./screenshots/shopping-cart.png)
+![Checkout](./screenshots/checkout.png)
+
+### Payment Integration
+Multiple payment options powered by Razorpay for secure transactions.
+
+![Payment Options](./screenshots/payment-options.png)
 
 ### Farmer Dashboard
-*Sales analytics, product management, and inventory tracking for farmers.*
-![Farmer Dashboard - Sales Analytics](./screenshots/08-farmer-dashboard.png)
+Comprehensive dashboard for farmers to manage their products and track sales.
 
-### Farmer Product Management
-*Add, edit, and manage product listings with inventory control.*
-![My Products - Farmer Product Management](./screenshots/09-myproducts.png)
+![Farmer Dashboard](./screenshots/farmer-dashboard.png)
+
+### Product Management
+Easy-to-use interface for farmers to add, edit, and manage their product listings.
+
+![My Products](./screenshots/my-products.png)
+
+### Messages & Communication
+Real-time chat system for direct communication between buyers and sellers.
+
+![Messages](./screenshots/messages.png)
 
 ## 👤 Author
 
@@ -503,9 +514,9 @@ Designed and Developed with 💖 by **Arpita Singh**
 
 🔗 **Connect with me:**
 
-- 📧 [Email](mailto:your.singharpita.05march@gmail.com)
-- 💼 [LinkedIn](https://www.linkedin.com/in/singharpitaa05)
-- 🐙 [GitHub](https://github.com/singharpitaa05)
+- 📧 [Email](mailto:your.email@example.com)
+- 💼 [LinkedIn](https://www.linkedin.com/in/yourprofile/)
+- 🐙 [GitHub](https://github.com/yourusername)
 
 📬 Feel free to reach out for questions, suggestions, or collaboration!
 
