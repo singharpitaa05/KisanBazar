@@ -459,47 +459,32 @@ Open your browser and navigate to: `http://localhost:5173`
 4. Push to branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
 
-## 📸 Screenshots
 
-### 🏠 Landing Page
-The welcoming home page showcasing KisanBazar's mission with a call-to-action for new users to get started.
+## 🖼️ Screenshots
 
-![Landing Page](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/home.png)
+![Homepage](homepage.png)
 
-### 👤 User Registration
-Comprehensive sign-up form with role selection (Farmer/Buyer), email validation, and secure password creation.
+![Dashboard](Dashboardpage.png)
 
-![Registration Page](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/register.png)
+![Products Listing](productpage.png)
 
-### 📊 Farmer Dashboard
-Dashboard showing product statistics, total views, inventory value, and average ratings with quick action buttons.
+![Browser Product Cards](browserproduct.png)
 
-![Farmer Dashboard](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/farmer-dashboard.png)
+![Cruciferous Vegetable (Product)](cruciferous.jpg)
 
-### 📦 Product Listing (My Products)
-Farmer's product management interface with status filters (All, Active, Out of Stock, Inactive) and action buttons for editing and management.
+![Fresh Apple (Product)](apple.jpg)
 
-![My Products](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/my-products.png)
+![Shopping Cart](shopping.png)
 
-### 🛍️ Product Details
-Detailed product view displaying pricing, availability, product description, category, and organic certification status.
+![Cart Summary](checkout.png)
 
-![Product Details](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/product-detail.png)
+![Checkout Form](checkout1.png)
 
-### 🛒 Shopping Cart
-Shopping cart page displaying items, quantities with increment/decrement controls, and comprehensive order summary.
+![Payment Modal](pg2.png)
 
-![Shopping Cart](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/cart.png)
+![Login Page](Loginpage.png)
 
-### 🚚 Checkout Page
-Delivery address form with fields for name, phone, address lines, city, state, and pincode with order summary.
-
-![Checkout](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/checkout.png)
-
-### 💳 Payment Options (Razorpay)
-Multiple payment methods including UPI, QR codes, Cards, EMI, Netbanking, Wallet options, and Pay Later facilities.
-
-![Payment Options](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/payment-options.png)
+![Logo Design](logodesign.jpg)
 
 ## 👤 Author
 
