@@ -461,38 +461,51 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ## 📸 Screenshots
 
-### Landing Page & Product Catalog
-![Homepage](./homepage.png)
-![Product Listing](./products.png)
+### Landing Page
+*The welcoming home page connecting farmers and consumers with fresh produce directly to your door.*
+![Homepage - Fresh From Farm Direct to Your Door](./screenshots/01-homepage.png)
+
+### User Authentication
+*Easy registration process with role selection between Farmer and Buyer.*
+![Sign Up Page - Create Your Account](./screenshots/02-signup.png)
+
+### Product Catalog & Discovery
+*Browse fresh agricultural products with advanced filtering options by category, price, and ratings.*
+![Browse Products - Fresh Produce Listings](./screenshots/03-products.png)
+
+### Product Details
+*Comprehensive product information with pricing, availability, descriptions, and seller details.*
+![Product Detail - Fresh Apple](./screenshots/04-productdetail.png)
 
 ### Shopping Experience
-![Product Details](./productdetail.png)
-![Shopping Cart](./cart.png)
-![Checkout](./checkout.png)
+*Add products to cart and manage quantities with order summary.*
+![Shopping Cart - Order Summary](./screenshots/05-cart.png)
 
-### User Dashboard & Orders
-![User Dashboard](./dashboard.png)
-![Order History](./orders.png)
-![Order Details](./orderdetails.png)
+### Checkout Process
+*Secure delivery address and order review before payment.*
+![Checkout - Delivery Address & Order Summary](./screenshots/06-checkout.png)
 
-### Farmer Features
-![Farmer Dashboard](./farmer-dashboard.png)
-![Add Product](./addproduct.png)
-![My Products](./myproducts.png)
+### Payment Gateway
+*Multiple secure payment options powered by Razorpay (UPI, Cards, EMI, Netbanking, Wallet).*
+![Payment Options - Razorpay Integration](./screenshots/07-payment.png)
 
-### Communication & Reviews
-![Messages/Chat](./messages.png)
-![Product Reviews](./reviews.png)
+### Farmer Dashboard
+*Sales analytics, product management, and inventory tracking for farmers.*
+![Farmer Dashboard - Sales Analytics](./screenshots/08-farmer-dashboard.png)
+
+### Farmer Product Management
+*Add, edit, and manage product listings with inventory control.*
+![My Products - Farmer Product Management](./screenshots/09-myproducts.png)
 
 ## 👤 Author
 
-Designed and Developed with 💖 by **Your Name**
+Designed and Developed with 💖 by **Arpita Singh**
 
 🔗 **Connect with me:**
 
-- 📧 [Email](mailto:your.email@example.com)
-- 💼 [LinkedIn](https://www.linkedin.com/in/yourprofile/)
-- 🐙 [GitHub](https://github.com/yourusername)
+- 📧 [Email](mailto:your.singharpita.05march@gmail.com)
+- 💼 [LinkedIn](https://www.linkedin.com/in/singharpitaa05)
+- 🐙 [GitHub](https://github.com/singharpitaa05)
 
 📬 Feel free to reach out for questions, suggestions, or collaboration!
 
