@@ -461,37 +461,50 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ## 📸 Screenshots
 
-### 1. Landing Page
-Homepage with introduction and call-to-action buttons for getting started.
-![Landing Page](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/landing.png)
+### 🏠 Landing Page
+The welcoming home page showcasing KisanBazar's mission with a call-to-action for new users to get started.
 
-### 2. User Registration
-Comprehensive sign-up form with role selection (Farmer/Buyer).
-![Registration Page](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/register.png)
+![Landing Page](screenshots/landing-page.png)
 
-### 3. Farmer Dashboard
-Dashboard showing product statistics, analytics, and quick actions for farmers.
-![Farmer Dashboard](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/farmer-dashboard.png)
+### 👤 User Registration
+Comprehensive registration form where users can choose their role (Farmer/Buyer) and create an account with validation.
 
-### 4. Product Listing (My Products)
-Farmer's product management interface with status filters and action buttons.
-![My Products](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/my-products.png)
+![User Registration](screenshots/registration-page.png)
 
-### 5. Product Details
-Detailed product view with pricing, availability, description, and reviews.
-![Product Details](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/product-detail.png)
+### 🛍️ Product Listing
+Browse and explore a wide variety of agricultural products with filtering and sorting options.
 
-### 6. Shopping Cart
-Shopping cart page displaying items, quantities, and order summary.
-![Shopping Cart](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/cart.png)
+![Product Listing](screenshots/product-listing.png)
 
-### 7. Checkout Page
-Delivery address form and order summary before payment.
-![Checkout](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/checkout.png)
+### 📦 Product Details
+Detailed product page showing comprehensive information, pricing, availability, seller details, and customer reviews.
 
-### 8. Payment Options (Razorpay)
-Multiple payment methods including UPI, Cards, Netbanking, Wallets, and more.
-![Payment Options](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/payment-options.png)
+![Product Details](screenshots/product-details.png)
+
+### 🛒 Shopping Cart
+View and manage items in your shopping cart with quantity adjustments and order summary.
+
+![Shopping Cart](screenshots/shopping-cart.png)
+
+### 💳 Checkout & Payment
+Secure checkout page with delivery address form and Razorpay payment options (UPI, Cards, Wallets, etc.).
+
+![Checkout Payment](screenshots/checkout-payment.png)
+
+### 📋 Checkout Form
+Delivery address collection with all necessary fields (name, phone, address, city, state, pincode).
+
+![Checkout Form](screenshots/checkout-form.png)
+
+### 👨‍🌾 Farmer Dashboard
+Seller dashboard displaying key metrics - total products, sales views, inventory value, and product ratings.
+
+![Farmer Dashboard](screenshots/farmer-dashboard.png)
+
+### 🌾 Product Management
+Farmer's product management page showing all listed products with status, pricing, stock, and quick action buttons.
+
+![My Products](screenshots/my-products.png)
 
 ## 👤 Author
 
