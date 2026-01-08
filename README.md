@@ -461,45 +461,45 @@ Open your browser and navigate to: `http://localhost:5173`
 
 ## 📸 Screenshots
 
-### 1. Landing Page
-The welcoming home page showcasing KisanBazar's mission with a call-to-action for new users to get started.
+### 1. 🏠 Landing Page
+The welcoming home page showcasing KisanBazar's mission with a call-to-action for new users to get started. Features the tagline "Fresh From Farm Direct to Your Door" with navigation and prominent action buttons.
 
-![Landing Page](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/landing-page.png)
+![Landing Page](screenshots/landing-page.png)
 
-### 2. User Registration
-Comprehensive sign-up form with role selection (Farmer/Buyer), allowing users to create accounts as either farmers or buyers.
+### 2. 📝 User Registration
+Comprehensive sign-up form with role selection (Farmer/Buyer). Includes fields for full name, email, phone number, password, and terms acceptance. Farmers can sell produce while buyers can purchase fresh products.
 
-![Registration Page](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/register.png)
+![Registration Page](screenshots/register.png)
 
-### 3. Farmer Dashboard
-Dashboard showing product statistics, total views, inventory value, average ratings, and quick actions for farmers to manage their business.
+### 3. 👨‍🌾 Farmer Dashboard
+Dashboard showing product statistics, analytics, and quick actions for farmers. Displays total products, total views, inventory value, and average ratings. Quick action buttons for adding new products and managing inventory.
 
-![Farmer Dashboard](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/farmer-dashboard.png)
+![Farmer Dashboard](screenshots/farmer-dashboard.png)
 
-### 4. Product Listing (My Products)
-Farmer's product management interface with status filters (All, Active, Out of Stock, Inactive) and action buttons for editing, updating stock, and managing products.
+### 4. 📦 Product Listing (My Products)
+Farmer's product management interface with status filters (All, Active, Out of Stock, Inactive) and action buttons. Shows product details, pricing, availability, and management options like Edit, Update Stock, Deactivate, and Delete.
 
-![My Products](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/my-products.png)
+![My Products](screenshots/my-products.png)
 
-### 5. Product Details
-Detailed product view with comprehensive information including pricing per unit, availability, category, descriptions highlighting nutritional benefits and uses, reviews, and seller information.
+### 5. 🍎 Product Details
+Detailed product view featuring the product image, pricing per unit, availability information, comprehensive description, reviews, and seller information. Easy-to-read layout with category tags and organic certification badges.
 
-![Product Details](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/product-detail.png)
+![Product Details](screenshots/product-detail.png)
 
-### 6. Shopping Cart
-Shopping cart page displaying items with product images, quantities, prices per unit, removal options, and a complete order summary with subtotal and delivery information.
+### 6. 🛒 Shopping Cart
+Shopping cart page displaying items with images, quantities adjustable via +/- buttons, pricing details, and order summary. Shows subtotal, delivery fee, and total with proceed to checkout button.
 
-![Shopping Cart](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/cart.png)
+![Shopping Cart](screenshots/cart.png)
 
-### 7. Checkout Page
-Delivery address form collecting full name, phone number, address details, city, state, and pincode, with order summary showing items and pricing information.
+### 7. 💳 Checkout Page
+Delivery address form where users enter full name, phone number, address lines, city, state, and pincode. Right side displays order summary with product details and total amount before proceeding to payment.
 
-![Checkout](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/checkout.png)
+![Checkout](screenshots/checkout.png)
 
-### 8. Payment Options (Razorpay)
-Multiple secure payment methods including UPI with QR code, Cards, EMI, Netbanking, Wallets, and Pay Later options, all powered by Razorpay's secure payment gateway.
+### 8. 💰 Payment Options (Razorpay)
+Multiple payment methods including UPI, Cards, Netbanking, Wallets, Pay Later, and EMI options. Secure Razorpay integration with QR code scanning support and various payment app logos for quick access.
 
-![Payment Options](https://raw.githubusercontent.com/singharpitaa05/KisanBazar/main/screenshots/payment-options.png)
+![Payment Options](screenshots/payment-options.png)
 
 ## 👤 Author
 
