@@ -40,9 +40,12 @@ const Messages = () => {
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.parentElement?.scrollTo({
-        top: messagesEndRef.current.parentElement.scrollHeight,
-        behavior: 'smooth'
+      // Use requestAnimationFrame to ensure DOM has updated
+      requestAnimationFrame(() => {
+        messagesEndRef.current?.parentElement?.scrollTo({
+          top: messagesEndRef.current.parentElement.scrollHeight,
+          behavior: 'auto'
+        });
       });
     }
   };
@@ -273,7 +276,7 @@ const Messages = () => {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-4">
+              <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 flex flex-col gap-4">
                 {messages.length === 0 ? (
                   <div className="flex items-center justify-center h-full">
                     <div className="text-center">
@@ -295,7 +298,7 @@ const Messages = () => {
                     </div>
                   </div>
                 ) : (
-                  <>
+                  <div className="flex flex-col gap-4">
                     {messages.map((message) => {
                       const isOwnMessage = message.senderId?._id === user?._id || message.senderId === user?._id;
                       
@@ -330,7 +333,7 @@ const Messages = () => {
                       );
                     })}
                     <div ref={messagesEndRef} />
-                  </>
+                  </div>
                 )}
               </div>
 
