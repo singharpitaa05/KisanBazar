@@ -18,7 +18,9 @@ class AuthAPI {
 
   // Google OAuth login
   googleLogin() {
-    window.location.href = `${axiosInstance.defaults.baseURL}${AUTH_ENDPOINTS.GOOGLE_AUTH}`;
+    const url = `${axiosInstance.defaults.baseURL}${AUTH_ENDPOINTS.GOOGLE_AUTH}`;
+    console.log('Redirecting to Google OAuth:', url);
+    window.location.href = url;
   }
 
   // Refresh access token
