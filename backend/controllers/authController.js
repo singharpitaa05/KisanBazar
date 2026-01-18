@@ -61,6 +61,10 @@ class AuthController {
   // Google OAuth - Callback
   googleCallback = asyncHandler(async (req, res) => {
     // User data is available in req.user (set by passport)
+    if (!req.user) {
+      return res.redirect(`${process.env.FRONTEND_URL}/login?error=auth_failed`);
+    }
+
     const { user, accessToken, refreshToken } = req.user;
 
     // Set refresh token in httpOnly cookie

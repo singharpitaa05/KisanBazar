@@ -89,15 +89,25 @@ router.post('/refresh-token', authController.refreshToken);
 // Google OAuth routes
 router.get(
   '/google',
+  (req, res, next) => {
+    console.log('[OAuth] /google route hit');
+    next();
+  },
   passport.authenticate('google', { 
-    scope: ['profile', 'email']
+    scope: ['profile', 'email'],
+    state: true
   })
 );
 
 router.get(
   '/google/callback',
+  (req, res, next) => {
+    console.log('[OAuth] /google/callback route hit');
+    next();
+  },
   passport.authenticate('google', { 
-    failureRedirect: `${process.env.FRONTEND_URL}/login?error=google_auth_failed`
+    failureRedirect: `${process.env.FRONTEND_URL}/login?error=google_auth_failed`,
+    session: true
   }),
   authController.googleCallback
 );

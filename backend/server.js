@@ -71,6 +71,12 @@ app.use(session({
 app.use(passportConfig.initialize());
 app.use(passportConfig.session());
 
+// Debug middleware to log requests
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
+
 // Health check route
 app.get('/health', (req, res) => {
   res.status(200).json({
